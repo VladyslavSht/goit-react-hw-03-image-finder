@@ -41,9 +41,6 @@ class ImageGallery extends React.Component {
             status: 'resolved',
             total: search.total,
           });
-          this.setState(prevState => {
-            return (prevState.page = +1);
-          });
         })
         .catch(error => this.setState({ error, status: 'rejected' }));
     }
