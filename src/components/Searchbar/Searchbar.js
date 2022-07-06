@@ -1,49 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { toast } from 'react-toastify';
-import { ImSearch } from 'react-icons/im';
+import PropTypes from 'prop-types';
+import s from './Searchbar.module.css';
 
-class Searchbar extends React.Component {
-  state = {
-    search: '',
-  };
+class Searchbar extends Component {
+  state = { text: '' };
 
-  handleChange = e => {
-    this.setState({ search: e.target.value });
+  handleInput = e => {
+    const { value } = e.currentTarget;
+    this.setState({ text: value.toLowerCase() });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-
-    if (this.state.search.trim() === '') {
-      toast.warning('No name');
-      return;
+    if (this.state.text.trim() === '') {
+      return toast.warning('Enter search request');
     }
-    this.props.onSubmit(this.state.search);
-
-    this.setState({ search: '' });
+    this.props.submit(this.state.text);
   };
 
   render() {
-    return (
-      <header class="searchbar">
-        <form class="form" onSubmit={this.handleSubmit}>
-          <button type="submit" class="button">
-            <ImSearch style={{ marginRight: 8 }} />
-            <span class="button-label">Search</span>
-          </button>
+    const { text } = this.state;
 
+    return (
+      <header className={s.header}>
+        <form className={s.form} onSubmit={this.handleSubmit}>
+          <button type="submit" className={s.button}>
+            <span className="button-label">Search</span>
+          </button>
           <input
-            class="input"
+            className={s.input}
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
-            onChange={this.handleChange}
+            value={text}
+            onChange={this.handleInput}
           />
         </form>
       </header>
     );
   }
 }
+
+Searchbar.propTypes = {
+  submit: PropTypes.func.isRequired,
+};
 
 export default Searchbar;

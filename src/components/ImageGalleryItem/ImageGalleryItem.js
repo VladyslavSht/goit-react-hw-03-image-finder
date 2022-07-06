@@ -1,9 +1,20 @@
-function ImageGalleryItem({ previewURL }) {
+import PropTypes from 'prop-types';
+import s from './ImageGalleryItem.module.css';
+
+const ImageGalleryItem = ({ id, img, modal }) => {
   return (
-    <li>
-      <img src={previewURL} alt="page" width="60" />
-    </li>
+    <>
+      <li className={s.galleryCard} key={id} onClick={() => modal(id)}>
+        <img className={s.galleryImg} src={img} alt={id} />
+      </li>
+    </>
   );
-}
+};
+
+ImageGalleryItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  img: PropTypes.string.isRequired,
+  modal: PropTypes.func.isRequired,
+};
 
 export default ImageGalleryItem;
